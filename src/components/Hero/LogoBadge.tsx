@@ -135,65 +135,39 @@ export function LogoBadge({
                 >
                   <div className={`w-full overflow-hidden rounded-[8px] bg-white shadow-[0px_53px_79px_rgba(0,0,0,0.28)] dark:bg-zinc-900 border border-neutral-200/80 dark:border-neutral-800 ${hasAutoScroll || videoSrc || imageSrc ? "" : "h-[118px]"}`}>
                     {hasAutoScroll ? (
-                      <div className="flex w-full flex-col overflow-hidden bg-neutral-950">
-                        {/* Mini browser top bar */}
-                        <div className="flex h-[24px] w-full items-center justify-between border-b border-neutral-200/70 dark:border-neutral-800 bg-neutral-100/95 dark:bg-neutral-900/95 px-2.5">
-                          <div className="flex items-center gap-1">
-                            <span className="size-[6px] rounded-full bg-[#ff5f56]" />
-                            <span className="size-[6px] rounded-full bg-[#ffbd2e]" />
-                            <span className="size-[6px] rounded-full bg-[#27c93f]" />
-                          </div>
-                          <div className="flex items-center gap-1 rounded bg-white/80 dark:bg-neutral-800/80 px-2 py-0.5 text-[9px] font-mono text-neutral-600 dark:text-neutral-300">
-                            <span className="size-[4px] rounded-full bg-emerald-500 animate-pulse" />
-                            <span className="truncate max-w-[130px]">{targetHost}</span>
-                          </div>
-                          <div className="size-[10px] text-neutral-400">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="size-full">
-                              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                              <polyline points="15 3 21 3 21 9" />
-                              <line x1="10" y1="14" x2="21" y2="3" />
-                            </svg>
-                          </div>
-                        </div>
+                      <div className="relative h-[175px] w-full overflow-hidden bg-white dark:bg-neutral-950">
+                        {/* Fallback base preview */}
+                        {imageSrc && (
+                          <img
+                            src={imageSrc}
+                            alt={label}
+                            className="absolute inset-0 size-full object-cover opacity-80"
+                          />
+                        )}
 
-                        {/* Viewport with auto-scrolling live web preview */}
-                        <div className="relative h-[168px] w-full overflow-hidden bg-white dark:bg-neutral-900">
-                          {/* Fallback base preview */}
-                          {imageSrc && (
-                            <img
-                              src={imageSrc}
-                              alt={label}
-                              className="absolute inset-0 size-full object-cover opacity-80"
-                            />
-                          )}
-
-                          {/* Scaled scrolling live iframe container */}
-                          <motion.div
-                            className="absolute left-0 top-0 w-[800px] h-[2800px] origin-top-left pointer-events-none select-none"
-                            style={{ transform: `scale(${cardW / 800})` }}
-                            animate={active ? { y: [0, -1950, 0] } : { y: 0 }}
-                            transition={{
-                              y: {
-                                duration: 12,
-                                ease: "easeInOut",
-                                repeat: Infinity,
-                                repeatDelay: 0.6,
-                              },
-                            }}
-                          >
-                            <iframe
-                              src={iframeSrc || href}
-                              title={label}
-                              loading="lazy"
-                              className="size-full border-0 bg-white"
-                              sandbox="allow-scripts allow-same-origin"
-                              tabIndex={-1}
-                            />
-                          </motion.div>
-
-                          {/* Bottom gradient fade */}
-                          <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-black/20 dark:from-black/40 to-transparent" />
-                        </div>
+                        {/* Full desktop 1280px scaled auto-scrolling container */}
+                        <motion.div
+                          className="absolute left-0 top-0 w-[1280px] h-[5200px] origin-top-left pointer-events-none select-none"
+                          style={{ transform: `scale(${cardW / 1280})` }}
+                          animate={active ? { y: [0, -3800, 0] } : { y: 0 }}
+                          transition={{
+                            y: {
+                              duration: 14,
+                              ease: "easeInOut",
+                              repeat: Infinity,
+                              repeatDelay: 0.8,
+                            },
+                          }}
+                        >
+                          <iframe
+                            src={iframeSrc || href}
+                            title={label}
+                            loading="lazy"
+                            className="size-full border-0 bg-white"
+                            sandbox="allow-scripts allow-same-origin"
+                            tabIndex={-1}
+                          />
+                        </motion.div>
                       </div>
                     ) : videoSrc ? (
                       <video ref={videoRef} src={videoSrc} loop muted playsInline draggable={false} className="block w-full" />
