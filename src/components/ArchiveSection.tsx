@@ -16,7 +16,7 @@ export function ArchiveSection() {
   return (
     <section className="w-full" onMouseLeave={() => setHovered(null)}>
       <h2 className="text-[13px] leading-[19.5px] text-neutral-500 dark:text-neutral-400">
-        Fun Experiment
+        Academic Projects
       </h2>
 
       <div

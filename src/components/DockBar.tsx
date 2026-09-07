@@ -92,10 +92,27 @@ function SkillsGlyph(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+function TestimonialsGlyph(props: SVGProps<SVGSVGElement>) {
+  return (
+    <PhosphorGlyph {...props}>
+      <polygon
+        points="128 32 16 96 128 160 240 96 128 32"
+        fill="currentColor"
+        stroke="none"
+        opacity="0.2"
+      />
+      <polygon points="128 32 16 96 128 160 240 96 128 32" />
+      <path d="M48,114.67V176a80,80,0,0,0,160,0V114.67" />
+      <line x1="240" y1="96" x2="240" y2="168" />
+    </PhosphorGlyph>
+  );
+}
+
 // `disabled: true` keeps the item visible but non-navigable (unavailable)
 const NAV = [
   { label: "Home", href: "/", Icon: HomeGlyph },
   { label: "Work", href: "/work", Icon: WorkGlyph },
+  { label: "Testimonials", href: "/testimonials", Icon: TestimonialsGlyph },
   { label: "Craft", href: "/playground", Icon: PlaygroundGlyph, disabled: true },
   { label: "Stack", href: "/skills", Icon: SkillsGlyph },
 ];

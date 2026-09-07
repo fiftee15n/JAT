@@ -14,7 +14,6 @@ import { TextScramble } from "@/components/motion/text-scramble";
 import { ContributionGraph } from "@/components/ContributionGraph";
 import { ProjectsSection } from "@/components/ProjectsSection";
 import { ArchiveSection } from "@/components/ArchiveSection";
-import { ColophonSection } from "@/components/ColophonSection";
 import { LinksLine } from "@/components/LinksLine";
 import { ProgressiveBlur } from "@/registry/magicui/progressive-blur";
 
@@ -139,7 +138,7 @@ function HeroContent() {
           className="mt-6 whitespace-pre-line max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
         >
           <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Currently, I&apos;m a Software Engineer at{" "}</span>
-          <LogoBadge id="donoro" label="Donoro" src="/badges/donoro.png" imageSrc="/badges/donoro-preview.png" iframeSrc="https://donoroapp.com/" autoScrollWeb={true} href="https://donoroapp.com/" width={290} active={logoHovered === "donoro"} dimmed={logoHovered !== null && logoHovered !== "donoro"} onHoverChange={setLogoHovered}>
+          <LogoBadge id="donoro" label="Donoro" src="/badges/donoro.png" imageSrc="/badges/donoro-preview.png" videoSrc="/badges/donoro.mp4" href="https://donoroapp.com/" width={290} active={logoHovered === "donoro"} dimmed={logoHovered !== null && logoHovered !== "donoro"} onHoverChange={setLogoHovered}>
             <span className="whitespace-nowrap">
               <span className="mx-[1px] inline-block size-[21px] align-middle">
                 <img src="/badges/donoro.png" alt="Donoro" draggable={false} className="size-full object-contain" />
@@ -157,34 +156,23 @@ function HeroContent() {
           transition={{ duration: 0.45, ease: "easeOut", delay: 0.19 }}
           className="mt-4 whitespace-pre-line max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
         >
-          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Previously worked as an Engineer at{" "}</span>
-          <LogoBadge id="orbix" label="Orbix Studio" src="/badges/orbix.png" href="https://www.orbix.studio/" videoSrc="/badges/orbix.mp4" width={290} active={logoHovered === "orbix"} dimmed={logoHovered !== null && logoHovered !== "orbix"} onHoverChange={setLogoHovered}>
-            <span className="whitespace-nowrap">
-              <span className="mx-[1px] inline-block size-[21px] align-middle">
-                <img src="/badges/orbix.png" alt="Orbix Studio" draggable={false} className="size-full rounded-full object-cover" />
-              </span>{" "}
-              <span className="font-medium text-black dark:text-white">Orbix Studio</span>
-            </span>
-          </LogoBadge>{" "}
-          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>&amp;{" "}</span>
-          <LogoBadge id="screens" label="ScreensDesign" src="/badges/screens.png" href="https://screensdesign.com" videoSrc="/badges/screens.mp4" width={290} active={logoHovered === "screens"} dimmed={logoHovered !== null && logoHovered !== "screens"} onHoverChange={setLogoHovered}>
-            <span className="whitespace-nowrap">
-              <span className="mx-[1px] inline-block size-[21px] align-middle">
-                <img src="/badges/screens.png" alt="ScreensDesign" draggable={false} className="size-full rounded-full object-cover" />
-              </span>{" "}
-              <span className="font-medium text-black dark:text-white">ScreensDesign</span>
+          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>I analyzed the hall dining management challenges at Gazipur Agricultural University and designed &amp; built the{" "}</span>
+          <LogoBadge
+            id="halldining"
+            label="Hall Dining Management"
+            src="/badges/gauhdm-preview.png"
+            imageSrc="/badges/gauhdm-preview.png"
+            href="https://gauhdm.vercel.app/"
+            width={290}
+            active={logoHovered === "halldining"}
+            dimmed={logoHovered !== null && logoHovered !== "halldining"}
+            onHoverChange={setLogoHovered}
+          >
+            <span className="whitespace-nowrap font-medium text-black underline decoration-neutral-300 underline-offset-4 hover:decoration-black dark:text-white dark:decoration-neutral-700 dark:hover:decoration-white">
+              Hall Dining Management
             </span>
           </LogoBadge>
-          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>{"\n"}Outside of work, I build and open-source software like{" "}</span>
-          <LogoBadge id="pintop" label="Pintop" src="/badges/pintop.png" href="https://github.com" popup={false} active={logoHovered === "pintop"} dimmed={logoHovered !== null && logoHovered !== "pintop"} onHoverChange={setLogoHovered}>
-            <span className="whitespace-nowrap">
-              <span className="mx-[1px] inline-block h-[21px] w-[21px] align-middle">
-                <img src="/badges/pintop.png" alt="Pintop" draggable={false} className="size-full object-contain" />
-              </span>{" "}
-              <span className="font-medium text-black dark:text-white">Pintop</span>
-            </span>
-          </LogoBadge>
-          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>, and{"\n"}love contributing to open-source projects.</span>
+          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>{" "}system.</span>
         </motion.p>
 
         <div ref={pillRowRef} className="relative mt-8">
@@ -415,16 +403,6 @@ function HeroContent() {
           className="mt-14 w-full"
         >
           <LinksLine />
-        </motion.div>
-
-        <motion.div
-          variants={FADE_UP}
-          initial={reduce ? false : "hidden"}
-          animate={welcomeDone ? "visible" : "hidden"}
-          transition={{ duration: 0.45, ease: "easeOut", delay: 0.61 }}
-          className="mt-14 w-full"
-        >
-          <ColophonSection />
         </motion.div>
         </div>
       </motion.div>

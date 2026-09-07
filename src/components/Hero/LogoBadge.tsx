@@ -6,7 +6,6 @@ import { AnimatePresence, motion } from "motion/react";
 
 const CARD_W = 200; // default card width — override per badge with the `width` prop
 
-// TEMP: hover popup disabled for review — flip to true to re-enable
 const POPUP_ENABLED = true;
 
 export function LogoBadge({
@@ -16,8 +15,6 @@ export function LogoBadge({
   href,
   videoSrc,
   imageSrc,
-  iframeSrc,
-  autoScrollWeb,
   width,
   popup = true,
   active,
@@ -33,8 +30,6 @@ export function LogoBadge({
   href: string;
   videoSrc?: string;
   imageSrc?: string;
-  iframeSrc?: string;
-  autoScrollWeb?: boolean;
   width?: number;
   popup?: boolean;
   active: boolean;
@@ -90,15 +85,6 @@ export function LogoBadge({
     };
   }, [active]);
 
-  const hasAutoScroll = autoScrollWeb || Boolean(iframeSrc);
-  const targetHost = (() => {
-    try {
-      return new URL(href || iframeSrc || "https://donoroapp.com").hostname;
-    } catch {
-      return "donoroapp.com";
-    }
-  })();
-
   return (
     <>
       <a
@@ -133,49 +119,33 @@ export function LogoBadge({
                   }}
                   style={{ width: cardW }}
                 >
-                  <div className={`w-full overflow-hidden rounded-[8px] bg-white shadow-[0px_53px_79px_rgba(0,0,0,0.28)] dark:bg-zinc-900 border border-neutral-200/80 dark:border-neutral-800 ${hasAutoScroll || videoSrc || imageSrc ? "" : "h-[118px]"}`}>
-                    {hasAutoScroll ? (
-                      <div className="relative h-[175px] w-full overflow-hidden bg-white dark:bg-neutral-950">
-                        {/* Fallback base preview */}
-                        {imageSrc && (
-                          <img
-                            src={imageSrc}
-                            alt={label}
-                            className="absolute inset-0 size-full object-cover opacity-80"
-                          />
-                        )}
-
-                        {/* Full desktop 1280px scaled auto-scrolling container */}
-                        <motion.div
-                          className="absolute left-0 top-0 w-[1280px] h-[5200px] origin-top-left pointer-events-none select-none"
-                          style={{ transform: `scale(${cardW / 1280})` }}
-                          animate={active ? { y: [0, -3800, 0] } : { y: 0 }}
-                          transition={{
-                            y: {
-                              duration: 14,
-                              ease: "easeInOut",
-                              repeat: Infinity,
-                              repeatDelay: 0.8,
-                            },
-                          }}
-                        >
-                          <iframe
-                            src={iframeSrc || href}
-                            title={label}
-                            loading="lazy"
-                            className="size-full border-0 bg-white"
-                            sandbox="allow-scripts allow-same-origin"
-                            tabIndex={-1}
-                          />
-                        </motion.div>
-                      </div>
-                    ) : videoSrc ? (
-                      <video ref={videoRef} src={videoSrc} loop muted playsInline draggable={false} className="block w-full" />
+                  <div className={`w-full overflow-hidden rounded-[8px] bg-white shadow-[0px_53px_79px_rgba(0,0,0,0.28)] dark:bg-zinc-900 border border-neutral-200/80 dark:border-neutral-800 ${videoSrc || imageSrc ? "" : "h-[118px]"}`}>
+                    {videoSrc ? (
+                      <video
+                        ref={videoRef}
+                        src={videoSrc}
+                        poster={imageSrc}
+                        loop
+                        muted
+                        playsInline
+                        draggable={false}
+                        className="block w-full object-cover"
+                      />
                     ) : imageSrc ? (
-                      <img src={imageSrc} alt={label} draggable={false} className="block w-full h-[160px] object-cover" />
+                      <img
+                        src={imageSrc}
+                        alt={label}
+                        draggable={false}
+                        className="block w-full h-auto object-contain"
+                      />
                     ) : (
                       <div className="flex h-[118px] w-full items-center justify-center p-4">
-                        <img src={src} alt={label} draggable={false} className={`max-h-[60px] max-w-[140px] object-contain ${imgClassName}`} />
+                        <img
+                          src={src}
+                          alt={label}
+                          draggable={false}
+                          className={`max-h-[60px] max-w-[140px] object-contain ${imgClassName}`}
+                        />
                       </div>
                     )}
                   </div>
@@ -188,4 +158,3 @@ export function LogoBadge({
     </>
   );
 }
-
