@@ -44,10 +44,8 @@ export default function RootLayout({
   // images could still be fetching when the loader lifts and pop in late.
   preload("/avatar.gif", { as: "image" });
   preload("/badges/donoro.png", { as: "image" });
+  preload("/badges/gauhdm-preview.png", { as: "image" });
   preload("/badges/company-logo.svg", { as: "image" });
-  preload("/badges/orbix.png", { as: "image" });
-  preload("/badges/screens.png", { as: "image" });
-  preload("/badges/pintop.png", { as: "image" });
   preload("/x-avatar.png", { as: "image" });
   preload("/linkedin-avatar.png", { as: "image" });
 
