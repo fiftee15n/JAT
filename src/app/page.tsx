@@ -13,6 +13,7 @@ import { ActionSwapCascadeText, ActionSwapIcon } from "@/components/motion/actio
 import { TextScramble } from "@/components/motion/text-scramble";
 import { ContributionGraph } from "@/components/ContributionGraph";
 import { ProjectsSection } from "@/components/ProjectsSection";
+import { PublicationSection } from "@/components/PublicationSection";
 import { ArchiveSection } from "@/components/ArchiveSection";
 import { FunProjectsSection } from "@/components/FunProjectsSection";
 import { LinksLine } from "@/components/LinksLine";
@@ -390,7 +391,17 @@ function HeroContent() {
           variants={FADE_UP}
           initial={reduce ? false : "hidden"}
           animate={welcomeDone ? "visible" : "hidden"}
-          transition={{ duration: 0.45, ease: "easeOut", delay: 0.47 }}
+          transition={{ duration: 0.45, ease: "easeOut", delay: 0.44 }}
+          className="mt-6 w-full"
+        >
+          <PublicationSection />
+        </motion.div>
+
+        <motion.div
+          variants={FADE_UP}
+          initial={reduce ? false : "hidden"}
+          animate={welcomeDone ? "visible" : "hidden"}
+          transition={{ duration: 0.45, ease: "easeOut", delay: 0.48 }}
           className="mt-6 w-full"
         >
           <ArchiveSection />
@@ -400,7 +411,7 @@ function HeroContent() {
           variants={FADE_UP}
           initial={reduce ? false : "hidden"}
           animate={welcomeDone ? "visible" : "hidden"}
-          transition={{ duration: 0.45, ease: "easeOut", delay: 0.51 }}
+          transition={{ duration: 0.45, ease: "easeOut", delay: 0.52 }}
           className="mt-6 w-full"
         >
           <FunProjectsSection />

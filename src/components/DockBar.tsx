@@ -60,24 +60,6 @@ function WorkGlyph(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-function PlaygroundGlyph(props: SVGProps<SVGSVGElement>) {
-  return (
-    <PhosphorGlyph {...props}>
-      <path
-        d="M84.27,171.73l-55.09-20.3a7.92,7.92,0,0,1,0-14.86l55.09-20.3,20.3-55.09a7.92,7.92,0,0,1,14.86,0l20.3,55.09,55.09,20.3a7.92,7.92,0,0,1,0,14.86l-55.09,20.3-20.3,55.09a7.92,7.92,0,0,1-14.86,0Z"
-        fill="currentColor"
-        stroke="none"
-        opacity="0.2"
-      />
-      <path d="M84.27,171.73l-55.09-20.3a7.92,7.92,0,0,1,0-14.86l55.09-20.3,20.3-55.09a7.92,7.92,0,0,1,14.86,0l20.3,55.09,55.09,20.3a7.92,7.92,0,0,1,0,14.86l-55.09,20.3-20.3,55.09a7.92,7.92,0,0,1-14.86,0Z" />
-      <line x1="176" y1="16" x2="176" y2="64" />
-      <line x1="224" y1="72" x2="224" y2="104" />
-      <line x1="152" y1="40" x2="200" y2="40" />
-      <line x1="208" y1="88" x2="240" y2="88" />
-    </PhosphorGlyph>
-  );
-}
-
 function SkillsGlyph(props: SVGProps<SVGSVGElement>) {
   return (
     <PhosphorGlyph {...props}>
@@ -108,12 +90,10 @@ function TestimonialsGlyph(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-// `disabled: true` keeps the item visible but non-navigable (unavailable)
 const NAV = [
   { label: "Home", href: "/", Icon: HomeGlyph },
   { label: "Work", href: "/work", Icon: WorkGlyph },
   { label: "Testimonials", href: "/testimonials", Icon: TestimonialsGlyph },
-  { label: "Craft", href: "/playground", Icon: PlaygroundGlyph, disabled: true },
   { label: "Stack", href: "/skills", Icon: SkillsGlyph },
 ];
 
@@ -142,24 +122,8 @@ export function DockBar() {
           size={49}
           className="rounded-full border border-[rgba(0,0,0,0.08)] bg-white/70 px-4 shadow-[0px_20px_40px_-12px_rgba(0,0,0,0.2),0px_10px_20px_-8px_rgba(0,0,0,0.12)] backdrop-blur-[16px] dark:border-[rgba(39,39,42,0.5)] dark:bg-[#141414]/85 dark:shadow-[0px_20px_40px_-12px_rgba(0,0,0,0.35),0px_10px_20px_-8px_rgba(0,0,0,0.2)]"
         >
-          {NAV.map(({ label, href, Icon, disabled }) => {
+          {NAV.map(({ label, href, Icon }) => {
             const active = pathname === href;
-            // disabled items stay visible but render as a plain span — no
-            // navigation, dimmed, with a not-allowed cursor + tooltip
-            if (disabled) {
-              return (
-                <DockItem key={href}>
-                  <span
-                    title="Coming soon"
-                    aria-disabled="true"
-                    className="flex size-full cursor-not-allowed flex-col items-center justify-center gap-[3px] text-neutral-400/70 opacity-60 dark:text-neutral-500/70"
-                  >
-                    <Icon className="size-[18px]" strokeWidth={1.5} aria-hidden />
-                    <span className="whitespace-nowrap text-[10px] leading-none">{label}</span>
-                  </span>
-                </DockItem>
-              );
-            }
             return (
               <DockItem key={href}>
                 <Link
