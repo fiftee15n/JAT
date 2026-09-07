@@ -33,6 +33,26 @@ export const content = {
       ],
       tags: ["React Native", "Expo", "TypeScript", "React", "Next.js", "TanStack Query", "Figma", "Google Play Store"],
     },
+    {
+      company: "Trendoo",
+      icon: "pen",
+      url: "",
+      logo: "/badges/trendoo.png",
+      logoInvert: false,
+      location: "Dhaka, Bangladesh",
+      locationNote: null,
+      role: "Creative Director",
+      type: "Full-time",
+      start: "May 2025",
+      end: "Sep 2025",
+      duration: "5 mos",
+      highlights: [
+        "Led creative direction, brand identity, and visual design strategy for Trendoo.",
+        "Supervised design concepts, campaign visuals, and digital assets to elevate youth brand engagement.",
+        "Collaborated across multidisciplinary teams to ensure cohesive visual storytelling and high-quality creative output.",
+      ],
+      tags: ["Creative Direction", "Brand Strategy", "Visual Identity", "UI/UX Design", "Figma", "Digital Media"],
+    },
   ],
   projects: [
     {
