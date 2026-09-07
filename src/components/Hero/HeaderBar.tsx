@@ -67,7 +67,7 @@ export function HeaderBar() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: "easeOut", delay: 0.08 }}
       >
-        <Tooltip content="Add reaction" side="bottom">
+        <Tooltip content="Add reaction" side="bottom" align="start">
           <span className="inline-flex">
             <EmojiReaction size="sm" align="left" />
           </span>
@@ -135,7 +135,7 @@ export function HeaderBar() {
             {String(coords.y).padStart(4, "\u00A0")}
           </span>
         </div>
-        <Tooltip content="Change theme" side="bottom">
+        <Tooltip content="Change theme" side="bottom" align="end">
           <ThemeToggle
             variant="circle-blur"
             start="top-right"

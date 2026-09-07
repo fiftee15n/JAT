@@ -29,34 +29,24 @@ import { cn } from "@/lib/utils";
 
 type Side = "top" | "right" | "bottom" | "left";
 
+export type TooltipAlign = "start" | "center" | "end" | "auto";
+
 export interface TooltipProps {
   content: ReactNode;
   children: ReactElement;
   side?: Side;
+  align?: TooltipAlign;
   /** Delay before showing (ms). Default 120. */
   delay?: number;
   className?: string;
   /** Classes for the outer wrapper span. Use to fix baseline / fill parent. */
   wrapperClassName?: string;
+  /** Whether to disable tooltip on touch devices. Default true. */
+  disableOnTouch?: boolean;
 }
 
 // Gap between trigger and tooltip, in px.
 const GAP = 8;
-
-// Centering transform for the fixed-positioned anchor point, per side.
-const anchorTransform: Record<Side, string> = {
-  top: "translate(-50%, -100%)",
-  bottom: "translate(-50%, 0)",
-  left: "translate(-100%, -50%)",
-  right: "translate(0, -50%)",
-};
-
-const transformOrigin: Record<Side, string> = {
-  top: "center bottom",
-  bottom: "center top",
-  left: "right center",
-  right: "left center",
-};
 
 // Offset is in the direction *away* from the trigger — content originates near
 // the trigger and rises into resting position.
@@ -118,37 +108,70 @@ export function Tooltip({
   content,
   children,
   side = "top",
+  align = "auto",
   delay = 120,
+  disableOnTouch = true,
   className,
   wrapperClassName,
 }: TooltipProps) {
   const [open, setOpen] = useState(false);
-  const [coords, setCoords] = useState<{ top: number; left: number } | null>(
-    null,
-  );
+  const [placement, setPlacement] = useState<{
+    top: number;
+    left: number;
+    transform: string;
+    origin: string;
+  } | null>(null);
   const id = useId();
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const anchorRef = useRef<HTMLSpanElement>(null);
   const hover = useHoverGesture();
   const reduce = useReducedMotion();
 
-  // Anchor point in viewport coords, on the edge of the trigger facing `side`.
-  // Position:fixed means these viewport coords place the tooltip directly, so
-  // it escapes every ancestor's stacking context and overflow.
+  // Anchor point in viewport coords, with automatic boundary clamping and alignment
   const place = useCallback(() => {
     const el = anchorRef.current;
     if (!el) return;
     const r = el.getBoundingClientRect();
+    const docW = typeof window !== "undefined" ? window.innerWidth : document.documentElement.clientWidth;
     const cx = r.left + r.width / 2;
     const cy = r.top + r.height / 2;
-    const point: Record<Side, { top: number; left: number }> = {
-      top: { top: r.top - GAP, left: cx },
-      bottom: { top: r.bottom + GAP, left: cx },
-      left: { top: cy, left: r.left - GAP },
-      right: { top: cy, left: r.right + GAP },
-    };
-    setCoords(point[side]);
-  }, [side]);
+
+    let effectiveAlign = align;
+    if (!effectiveAlign || effectiveAlign === "auto") {
+      if (cx < 90) effectiveAlign = "start";
+      else if (cx > docW - 90) effectiveAlign = "end";
+      else effectiveAlign = "center";
+    }
+
+    let top = 0;
+    let left = 0;
+    let transform = "";
+    let origin = "";
+
+    if (side === "top" || side === "bottom") {
+      top = side === "top" ? r.top - GAP : r.bottom + GAP;
+      if (effectiveAlign === "start") {
+        left = Math.max(12, r.left);
+        transform = side === "top" ? "translate(0, -100%)" : "translate(0, 0)";
+        origin = side === "top" ? "left bottom" : "left top";
+      } else if (effectiveAlign === "end") {
+        left = Math.min(docW - 12, r.right);
+        transform = side === "top" ? "translate(-100%, -100%)" : "translate(-100%, 0)";
+        origin = side === "top" ? "right bottom" : "right top";
+      } else {
+        left = Math.max(12, Math.min(cx, docW - 12));
+        transform = side === "top" ? "translate(-50%, -100%)" : "translate(-50%, 0)";
+        origin = side === "top" ? "center bottom" : "center top";
+      }
+    } else {
+      top = cy;
+      left = side === "left" ? r.left - GAP : r.right + GAP;
+      transform = side === "left" ? "translate(-100%, -50%)" : "translate(0, -50%)";
+      origin = side === "left" ? "right center" : "left center";
+    }
+
+    setPlacement({ top, left, transform, origin });
+  }, [side, align]);
 
   const show = useCallback(() => {
     if (timer.current) clearTimeout(timer.current);
@@ -171,16 +194,13 @@ export function Tooltip({
     setOpen(false);
   }, [open]);
 
-  // A finger never hovers, and Safari does not focus a button on tap either, so
-  // the label is only reachable if the tap itself opens the tooltip. A click
-  // carries no pointerType, so the pointerdown that preceded it is what says
-  // whether this was a tap; keyboard activation arrives with no pointerdown at
-  // all, and focus has already shown the label there.
   const tap = useTapGesture<boolean>();
 
   const toggleOnTap = useCallback(() => {
     const gesture = tap.take();
-    if (!gesture || gesture.pointerType === "mouse") return;
+    if (!gesture || gesture.pointerType === "touch" || gesture.pointerType === "pen" || disableOnTouch) {
+      return;
+    }
     if (gesture.state) {
       hide();
       return;
@@ -188,14 +208,10 @@ export function Tooltip({
     if (timer.current) clearTimeout(timer.current);
     place();
     setOpen(true);
-  }, [hide, place, tap]);
+  }, [disableOnTouch, hide, place, tap]);
 
-  // ...and closed again by the next tap that lands somewhere else. The label
-  // covers nothing interactive, so that tap passes through to what it hit.
   useDismiss(open, hide, anchorRef);
 
-  // Keep the tooltip pinned to the trigger while it's open and the page scrolls
-  // or resizes (fixed coords are viewport-relative).
   useEffect(() => {
     if (!open) return;
     const onMove = () => place();
@@ -214,33 +230,17 @@ export function Tooltip({
 
   if (!isValidElement(children)) return children;
 
-  // The label describes the trigger, so it has to name the trigger itself.
-  // Everything else the tooltip needs is read off the anchor below instead of
-  // cloned on: a handler written onto the child is the child's handler as far
-  // as that child can tell, and a component that owns its activation —
-  // hard-wiring onClick and spreading the rest of its props over it, as
-  // ThemeToggle does — then runs the tooltip's instead of its own. Composing
-  // with `props.onClick` cannot save it either, because a component element's
-  // props hold nothing the component does internally.
   const trigger = cloneElement(children as ReactElement<Record<string, unknown>>, {
     "aria-describedby": id,
   });
 
   return (
     <>
-      {/* biome-ignore lint/a11y/noStaticElementInteractions: the anchor is not a
-          control — it observes the trigger it wraps. Every event listed reaches
-          it on its own (pointerdown/click/keydown/pointercancel bubble, focus
-          and blur arrive as focusin/focusout, and enter/leave are derived from
-          pointerover/pointerout along a path the anchor is on), so the trigger
-          keeps every handler it came with. */}
       <span
         ref={anchorRef}
         className={cn("relative inline-flex align-middle", wrapperClassName)}
-        // Pointer events, not the mouse pair: a tap fires compatibility
-        // mouseenter/mouseleave that carry no pointerType, which raced the tap
-        // path into opening and closing the same label.
         onPointerEnter={(event: PointerEvent) => {
+          if (event.pointerType === "touch") return;
           if (hover.enter(event)) show();
         }}
         onPointerLeave={(event: PointerEvent) => {
@@ -248,11 +248,10 @@ export function Tooltip({
         }}
         onFocus={show}
         onBlur={hide}
-        onPointerDown={(event: PointerEvent) => tap.start(event, open)}
-        // A gesture the platform took away sends no click, and a key press
-        // starts an activation that never had a pointer behind it. Either way
-        // the record has to go, or the next click reads a finger that has long
-        // since lifted.
+        onPointerDown={(event: PointerEvent) => {
+          if (event.pointerType === "touch") return;
+          tap.start(event, open);
+        }}
         onPointerCancel={tap.drop}
         onKeyDown={tap.drop}
         onClick={toggleOnTap}
@@ -262,14 +261,14 @@ export function Tooltip({
       {typeof document !== "undefined"
         ? createPortal(
             <AnimatePresence>
-              {open && coords ? (
+              {open && placement ? (
                 <span
                   aria-hidden
                   className="pointer-events-none fixed z-[9999]"
                   style={{
-                    top: coords.top,
-                    left: coords.left,
-                    transform: anchorTransform[side],
+                    top: placement.top,
+                    left: placement.left,
+                    transform: placement.transform,
                   }}
                 >
                   <motion.span
@@ -279,7 +278,7 @@ export function Tooltip({
                     initial="initial"
                     animate="animate"
                     exit="exit"
-                    style={{ transformOrigin: transformOrigin[side] }}
+                    style={{ transformOrigin: placement.origin }}
                     className={cn(
                       "block whitespace-nowrap rounded-full bg-foreground px-2.5 py-1 text-xs font-medium text-background shadow-lg",
                       className,
