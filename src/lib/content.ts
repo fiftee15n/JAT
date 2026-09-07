@@ -21,7 +21,7 @@ export const content = {
       locationNote: "(Remote / Hybrid)",
       role: "Software Engineer & Product Lead",
       type: "Full-time",
-      start: "01.2025",
+      start: "09.2025",
       end: null, // present
       duration: "Present",
       highlights: [
