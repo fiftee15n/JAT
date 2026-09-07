@@ -14,6 +14,7 @@ import { TextScramble } from "@/components/motion/text-scramble";
 import { ContributionGraph } from "@/components/ContributionGraph";
 import { ProjectsSection } from "@/components/ProjectsSection";
 import { ArchiveSection } from "@/components/ArchiveSection";
+import { FunProjectsSection } from "@/components/FunProjectsSection";
 import { LinksLine } from "@/components/LinksLine";
 import { ProgressiveBlur } from "@/registry/magicui/progressive-blur";
 
@@ -399,7 +400,17 @@ function HeroContent() {
           variants={FADE_UP}
           initial={reduce ? false : "hidden"}
           animate={welcomeDone ? "visible" : "hidden"}
-          transition={{ duration: 0.45, ease: "easeOut", delay: 0.54 }}
+          transition={{ duration: 0.45, ease: "easeOut", delay: 0.51 }}
+          className="mt-6 w-full"
+        >
+          <FunProjectsSection />
+        </motion.div>
+
+        <motion.div
+          variants={FADE_UP}
+          initial={reduce ? false : "hidden"}
+          animate={welcomeDone ? "visible" : "hidden"}
+          transition={{ duration: 0.45, ease: "easeOut", delay: 0.56 }}
           className="mt-14 w-full"
         >
           <LinksLine />

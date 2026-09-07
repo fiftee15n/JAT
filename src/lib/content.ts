@@ -148,6 +148,14 @@ export const content = {
       url: "https://github.com/fiftee15n/bazar_sadaai",
     },
   ],
+  funProjects: [
+    {
+      year: "2025",
+      name: "Chithi",
+      description: "Anonymous Bangla letter platform.",
+      url: "https://chithi-likhun-seven.vercel.app/",
+    },
+  ],
   education: [
     {
       degree: "B.Sc in Computer Science & Engineering",
