@@ -52,7 +52,7 @@ export function PublicationSection() {
 
               <div className="flex flex-col gap-1.5">
                 {/* Meta row: Year, Conference, Role, Read Link */}
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex flex-wrap items-center justify-between gap-y-1.5 gap-x-2">
                   <div className="flex flex-wrap items-center gap-2 text-[12px] leading-none">
                     <span className="font-mono text-neutral-500 dark:text-neutral-400">
                       {paper.year}
@@ -71,7 +71,7 @@ export function PublicationSection() {
                     href={paper.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 font-mono text-[11.5px] text-neutral-500 transition-colors hover:text-black dark:text-neutral-400 dark:hover:text-white"
+                    className="inline-flex shrink-0 items-center gap-1 font-mono text-[11.5px] text-neutral-500 transition-colors hover:text-black dark:text-neutral-400 dark:hover:text-white"
                   >
                     <span>Read Paper</span>
                     <svg
@@ -98,13 +98,13 @@ export function PublicationSection() {
 
                 {/* DOI & Details line */}
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11.5px] text-neutral-500 dark:text-neutral-400">
-                  <span className="flex items-center gap-1">
+                  <span className="flex min-w-0 flex-wrap items-center gap-1">
                     <span className="text-neutral-400 dark:text-neutral-500">DOI:</span>
                     <a
                       href={`https://doi.org/${paper.doi}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-neutral-600 underline decoration-neutral-300 underline-offset-2 hover:text-black dark:text-neutral-300 dark:decoration-neutral-700 dark:hover:text-white"
+                      className="break-all text-neutral-600 underline decoration-neutral-300 underline-offset-2 hover:text-black dark:text-neutral-300 dark:decoration-neutral-700 dark:hover:text-white"
                     >
                       {paper.doi}
                     </a>

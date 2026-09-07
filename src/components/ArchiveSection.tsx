@@ -60,7 +60,7 @@ export function ArchiveSection() {
               </span>
               {/* descriptions dim with age, per design; hover lifts them to full */}
               <span
-                className={`min-w-0 whitespace-nowrap font-mono text-[12px] sm:text-[13px] leading-[19.5px] text-neutral-500 opacity-(--row-o) transition-opacity duration-500 group-hover:opacity-100 dark:text-neutral-400 ${EASE}`}
+                className={`min-w-0 truncate font-mono text-[12px] sm:text-[13px] leading-[19.5px] text-neutral-500 opacity-(--row-o) transition-opacity duration-500 group-hover:opacity-100 dark:text-neutral-400 ${EASE}`}
                 style={{ "--row-o": 1 - i * 0.1 } as CSSProperties}
               >
                 {item.description}

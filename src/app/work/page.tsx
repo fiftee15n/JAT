@@ -65,14 +65,14 @@ export default function WorkPage() {
   return (
     <main className="flex flex-1 flex-col items-center justify-start bg-background text-foreground">
       <motion.div
-  className="relative flex w-full flex-1 flex-col items-center justify-start px-6 pt-16"
-  style={{ paddingBottom: pb }}
->
+        className="relative flex w-full flex-1 flex-col items-center justify-start px-4 sm:px-6 pt-12 sm:pt-16"
+        style={{ paddingBottom: pb }}
+      >
         <div className="flex w-full max-w-[540px] flex-col gap-[25px]">
         {/* Heading — hero greeting treatment, bumped a size; fades up + unblurs
             on mount, so it plays when arriving via the dock */}
         <motion.p
-          className="text-[24px] font-medium leading-none text-foreground"
+          className="text-[20px] sm:text-[24px] font-medium leading-none text-foreground"
           style={{ fontFamily: "var(--font-overused-grotesk)" }}
           initial={reduce ? false : { opacity: 0, y: 14, filter: "blur(6px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -116,21 +116,21 @@ export default function WorkPage() {
                   </span>
                 )}
               </a>
-              <div className="relative h-6 min-w-0 flex-1">
+              <div className="flex flex-1 items-center justify-between min-w-0">
                 <a
                   href={job.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="absolute left-0 top-0 whitespace-nowrap text-[20px] leading-6 transition-opacity hover:opacity-70"
+                  className="truncate text-[18px] sm:text-[20px] leading-6 font-medium transition-opacity hover:opacity-70"
                   style={{ fontFamily: "var(--font-overused-grotesk)" }}
                 >
                   {job.company}
                 </a>
-                <span className="absolute right-0 top-1 hidden items-center whitespace-nowrap text-sm text-neutral-500 sm:flex dark:text-neutral-400">
+                <span className="flex items-center shrink-0 text-[12px] sm:text-sm text-neutral-500 dark:text-neutral-400">
                   {job.location}
-                  {job.locationNote && <span className="ml-1.5">{job.locationNote}</span>}
+                  {job.locationNote && <span className="ml-1 hidden sm:inline">{job.locationNote}</span>}
                   {job.end === null && (
-                    <span aria-hidden className="relative ml-2.5 inline-block size-2.5">
+                    <span aria-hidden className="relative ml-2 inline-block size-2.5">
                       <span className="absolute -inset-1 animate-ping rounded-full bg-foreground/10 motion-reduce:hidden" />
                       <span className="absolute -inset-1 rounded-full bg-foreground/10" />
                       <span className="absolute inset-[2px] rounded-full bg-foreground" />
@@ -172,41 +172,41 @@ export default function WorkPage() {
                     <span className="relative flex size-6 shrink-0 items-center justify-center rounded-md bg-neutral-100 shadow-[0_0_0_1px_#ffffff,0_0_0_2px_rgba(228,228,231,0.5)] dark:bg-neutral-900 dark:shadow-[0_0_0_1px_#0a0a0a,0_0_0_2px_rgba(255,255,255,0.08)]">
                       <Icon className="size-4 text-neutral-500" aria-hidden="true" />
                     </span>
-                    <p className="text-base font-medium leading-6 text-foreground">{job.role}</p>
+                    <p className="text-[14.5px] sm:text-base font-medium leading-6 text-foreground">{job.role}</p>
                   </div>
                 </motion.div>
 
                 {/* Meta line */}
                 <motion.div
-                  className="ml-9 mt-1 flex items-center gap-2 text-sm leading-5 text-neutral-500 dark:text-neutral-400"
+                  className="ml-9 mt-1 flex flex-wrap items-center gap-1.5 sm:gap-2 text-[12px] sm:text-sm leading-5 text-neutral-500 dark:text-neutral-400"
                   variants={FADE_UP}
                   initial={reduce ? false : "hidden"}
                   animate="visible"
                   transition={{ duration: 0.45, ease: "easeOut", delay: 0.29 }}
                 >
                   <span>{job.type}</span>
-                  <span aria-hidden className="h-4 w-px bg-neutral-300 dark:bg-neutral-700" />
+                  <span aria-hidden className="h-3.5 w-px bg-neutral-300 dark:bg-neutral-700" />
                   <span>{job.start}</span>
                   <span aria-hidden className="font-mono">—</span>
                   {job.end ? (
                     <span>{job.end}</span>
                   ) : (
-                    <InfinityIcon className="size-[18px]" strokeWidth={1.333} />
+                    <InfinityIcon className="size-[16px] sm:size-[18px]" strokeWidth={1.333} />
                   )}
                   {job.duration && (
                     <>
-                      <span aria-hidden className="h-4 w-px bg-neutral-300 dark:bg-neutral-700" />
+                      <span aria-hidden className="h-3.5 w-px bg-neutral-300 dark:bg-neutral-700" />
                       <span>{job.duration}</span>
                     </>
                   )}
                 </motion.div>
 
                 {/* Bullets */}
-                <ul className="ml-[27px] mt-3 space-y-[7.5px]">
+                <ul className="ml-[20px] sm:ml-[27px] mt-3 space-y-[7.5px]">
                   {job.highlights.map((h, i) => (
                     <motion.li
                       key={h}
-                      className="flex items-start gap-1.5 text-[15px] leading-6 text-neutral-500 dark:text-neutral-400"
+                      className="flex items-start gap-1.5 text-[13.5px] sm:text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
                       variants={FADE_UP}
                       initial={reduce ? false : "hidden"}
                       animate="visible"
@@ -221,7 +221,7 @@ export default function WorkPage() {
                 {/* Tags */}
                 {job.tags.length > 0 && (
                   <motion.div
-                    className="ml-9 mt-3 flex flex-wrap gap-1.5 pb-2"
+                    className="ml-7 sm:ml-9 mt-3 flex flex-wrap gap-1 sm:gap-1.5 pb-2"
                     variants={FADE_UP}
                     initial={reduce ? false : "hidden"}
                     animate="visible"
@@ -230,7 +230,7 @@ export default function WorkPage() {
                     {job.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-full bg-neutral-100 px-1.5 py-0.5 font-mono text-xs leading-4 text-neutral-500 dark:bg-neutral-900 dark:text-neutral-400"
+                        className="rounded-full bg-neutral-100 px-2 py-0.5 font-mono text-[11px] sm:text-xs leading-4 text-neutral-500 dark:bg-neutral-900 dark:text-neutral-400"
                       >
                         {tag}
                       </span>

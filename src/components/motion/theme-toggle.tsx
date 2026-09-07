@@ -127,36 +127,127 @@ export function useThemeToggle({
   start = "bottom-up",
 }: { variant?: ThemeVariant; start?: RectStart } = {}) {
   const { setTheme, resolvedTheme } = useTheme();
-  const reduce = useReducedMotion() ?? false;
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   useEffect(() => {
     if (document.getElementById(VT_STYLE_ID)) return;
     const el = document.createElement("style");
     el.id = VT_STYLE_ID;
-    el.textContent = VT_CSS;
+    el.textContent = `
+html[data-beui-vt="rect"]::view-transition-old(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+html[data-beui-vt="rect"]::view-transition-new(root) {
+  mix-blend-mode: normal;
+  animation: beui-rect-reveal 400ms ease-out;
+}
+html[data-beui-vt="circle"]::view-transition-old(root),
+html[data-beui-vt="circle-blur"]::view-transition-old(root) {
+  animation: none;
+  mix-blend-mode: normal;
+  z-index: 1;
+}
+html[data-beui-vt="circle"]::view-transition-new(root) {
+  mix-blend-mode: normal;
+  z-index: 2;
+  animation: beui-circle-reveal 650ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+html[data-beui-vt="circle-blur"]::view-transition-new(root) {
+  mix-blend-mode: normal;
+  z-index: 2;
+  animation: beui-circle-blur-reveal 650ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+html[data-beui-vt="blinds"]::view-transition-old(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+@property --beui-vt-slat {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 72px;
+}
+html[data-beui-vt="blinds"]::view-transition-new(root) {
+  mix-blend-mode: normal;
+  mask-image: linear-gradient(
+    90deg,
+    #000 0 var(--beui-vt-slat),
+    transparent calc(var(--beui-vt-slat) + 20px)
+  );
+  mask-size: 72px 100%;
+  mask-repeat: repeat;
+  animation: beui-blinds-reveal 700ms ${EASE_OUT_CSS};
+}
+@keyframes beui-rect-reveal {
+  from { clip-path: var(--beui-vt-from, inset(100% 0 0 0)); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+@keyframes beui-circle-reveal {
+  from { clip-path: circle(0px at var(--beui-vt-origin, 50% 100%)); }
+  to   { clip-path: circle(160vmax at var(--beui-vt-origin, 50% 100%)); }
+}
+@keyframes beui-circle-blur-reveal {
+  from { clip-path: circle(0px at var(--beui-vt-origin, 50% 100%)); filter: blur(10px); }
+  to   { clip-path: circle(160vmax at var(--beui-vt-origin, 50% 100%)); filter: blur(0px); }
+}
+@keyframes beui-blinds-reveal {
+  from { --beui-vt-slat: -20px; }
+  to   { --beui-vt-slat: 72px; }
+}
+`;
     document.head.appendChild(el);
   }, []);
   const isDark = mounted && resolvedTheme === "dark";
 
-  const toggle = () => {
+  const toggle = (e?: React.MouseEvent | React.TouchEvent | any) => {
     const next = isDark ? "light" : "dark";
 
-    if (reduce || !("startViewTransition" in document)) {
+    if (typeof document === "undefined" || !("startViewTransition" in document)) {
       setTheme(next);
       return;
     }
 
     const root = document.documentElement;
 
+    // Calculate dynamic origin from click/touch or element position
     if (variant === "rectangle") {
       root.style.setProperty("--beui-vt-from", RECT_FROM[start]);
       root.dataset.beuiVt = "rect";
     } else if (variant === "blinds") {
-      // Slats sweep the whole viewport; there is no origin point to set.
       root.dataset.beuiVt = "blinds";
     } else {
-      root.style.setProperty("--beui-vt-origin", CIRCLE_ORIGIN[start]);
+      let originSet = false;
+      if (e) {
+        let clientX: number | undefined;
+        let clientY: number | undefined;
+        if ("clientX" in e && typeof e.clientX === "number" && (e.clientX !== 0 || e.clientY !== 0)) {
+          clientX = e.clientX;
+          clientY = e.clientY;
+        } else if ("touches" in e && e.touches && e.touches.length > 0) {
+          clientX = e.touches[0].clientX;
+          clientY = e.touches[0].clientY;
+        } else if ("changedTouches" in e && e.changedTouches && e.changedTouches.length > 0) {
+          clientX = e.changedTouches[0].clientX;
+          clientY = e.changedTouches[0].clientY;
+        }
+        
+        if (clientX === undefined || clientY === undefined) {
+          const targetEl = ((e.currentTarget || e.target) as HTMLElement | null);
+          if (targetEl && typeof targetEl.getBoundingClientRect === "function") {
+            const rect = targetEl.getBoundingClientRect();
+            clientX = rect.left + rect.width / 2;
+            clientY = rect.top + rect.height / 2;
+          }
+        }
+
+        if (clientX !== undefined && clientY !== undefined) {
+          root.style.setProperty("--beui-vt-origin", `${clientX}px ${clientY}px`);
+          originSet = true;
+        }
+      }
+      if (!originSet) {
+        root.style.setProperty("--beui-vt-origin", CIRCLE_ORIGIN[start] || "100% 0%");
+      }
       root.dataset.beuiVt = variant;
     }
 
@@ -164,7 +255,9 @@ export function useThemeToggle({
       document as Document & {
         startViewTransition(cb: () => void): { finished: Promise<void> };
       }
-    ).startViewTransition(() => setTheme(next));
+    ).startViewTransition(() => {
+      setTheme(next);
+    });
 
     vt.finished.finally(() => {
       delete root.dataset.beuiVt;
@@ -186,9 +279,10 @@ export function ThemeToggle({
   return (
     <button
       type="button"
+      data-beui-theme-toggle
       aria-label={mounted && isDark ? "Switch to light mode" : "Switch to dark mode"}
-      onClick={toggle}
-      className={cn("flex items-center justify-center", className)}
+      onClick={(e) => toggle(e)}
+      className={cn("flex items-center justify-center cursor-pointer select-none touch-manipulation", className)}
       {...rest}
     >
       {mounted ? (

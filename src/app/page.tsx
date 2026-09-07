@@ -99,12 +99,12 @@ function HeroContent() {
       className="relative flex flex-1 flex-col bg-background text-foreground"
       onMouseMove={handleSigMagnetic}
     >
-      <motion.div className="flex flex-1 flex-col items-center justify-start px-6 pt-16" style={{ paddingBottom: pb }}>
+      <motion.div className="flex flex-1 flex-col items-center justify-start px-4 sm:px-6 pt-12 sm:pt-16" style={{ paddingBottom: pb }}>
         <div className="flex w-full max-w-[540px] flex-col items-start text-left">
         <motion.div
           id="hero-signature"
           ref={sigRef}
-          className="mb-6 h-[76px] w-[56px] shrink-0 self-start select-none"
+          className="mb-5 sm:mb-6 h-[64px] sm:h-[76px] w-[47px] sm:w-[56px] shrink-0 self-start select-none"
           style={{ x: sigSpringX, y: sigSpringY, rotate: sigSpringR }}
           initial={reduce ? false : { opacity: 0 }}
           animate={welcomeDone ? { opacity: 1 } : { opacity: 0 }}
@@ -118,7 +118,7 @@ function HeroContent() {
           />
         </motion.div>
 
-        <p className="text-[22px] font-medium leading-none text-foreground" style={{ fontFamily: "var(--font-overused-grotesk)" }}>
+        <p className="text-[20px] sm:text-[22px] font-medium leading-snug text-foreground" style={{ fontFamily: "var(--font-overused-grotesk)" }}>
           <TextScramble text="Hi, I'm Jahangir Alam Tamal, Software Engineer." active={welcomeDone} />
         </p>
 
@@ -127,7 +127,7 @@ function HeroContent() {
           initial={reduce ? false : "hidden"}
           animate={welcomeDone ? "visible" : "hidden"}
           transition={{ duration: 0.45, ease: "easeOut", delay: 0.05 }}
-          className="mt-4 whitespace-pre-line max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
+          className="mt-3 sm:mt-4 whitespace-pre-line max-w-[540px] text-[14px] sm:text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
         >
           <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Based in Bangladesh, working globally. Focused on building high-performance{"\n"}software, modern web applications, and scalable distributed systems.</span>
         </motion.p>
@@ -137,7 +137,7 @@ function HeroContent() {
           initial={reduce ? false : "hidden"}
           animate={welcomeDone ? "visible" : "hidden"}
           transition={{ duration: 0.45, ease: "easeOut", delay: 0.12 }}
-          className="mt-6 whitespace-pre-line max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
+          className="mt-4 sm:mt-6 whitespace-pre-line max-w-[540px] text-[14px] sm:text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
         >
           <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Currently, I&apos;m a Software Engineer at{" "}</span>
           <LogoBadge id="donoro" label="Donoro" src="/badges/donoro.png" imageSrc="/badges/donoro-preview.png" videoSrc="/badges/donoro.mp4" href="https://donoroapp.com/" width={290} active={logoHovered === "donoro"} dimmed={logoHovered !== null && logoHovered !== "donoro"} onHoverChange={setLogoHovered}>
@@ -156,7 +156,7 @@ function HeroContent() {
           initial={reduce ? false : "hidden"}
           animate={welcomeDone ? "visible" : "hidden"}
           transition={{ duration: 0.45, ease: "easeOut", delay: 0.19 }}
-          className="mt-4 whitespace-pre-line max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
+          className="mt-4 whitespace-pre-line max-w-[540px] text-[14px] sm:text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
         >
           <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>I analyzed the hall dining management challenges at Gazipur Agricultural University and designed &amp; built the{" "}</span>
           <LogoBadge
@@ -177,9 +177,9 @@ function HeroContent() {
           <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>{" "}system.</span>
         </motion.p>
 
-        <div ref={pillRowRef} className="relative mt-8">
+        <div ref={pillRowRef} className="relative mt-6 sm:mt-8">
         <motion.div
-          className="flex flex-wrap gap-1"
+          className="flex flex-wrap gap-1.5 sm:gap-1"
           initial={reduce ? false : { opacity: 0, y: 10 }}
           animate={welcomeDone ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
           transition={{ duration: 0.4, ease: "easeOut", delay: 0.3 + (welcomeDone ? 0 : 0.4) }}

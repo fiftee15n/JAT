@@ -30,7 +30,7 @@ export function EducationSection() {
           initial={reduce ? false : "hidden"}
           animate="visible"
           transition={{ duration: 0.45, ease: "easeOut", delay: 0.08 }}
-          className="mt-2 text-[26px] font-bold tracking-tight text-neutral-900 dark:text-white sm:text-[32px]"
+          className="mt-2 text-[22px] font-bold tracking-tight text-neutral-900 dark:text-white sm:text-[28px] md:text-[32px]"
           style={{ fontFamily: "var(--font-overused-grotesk)" }}
         >
           Education &amp; Certifications
@@ -41,7 +41,7 @@ export function EducationSection() {
           initial={reduce ? false : "hidden"}
           animate="visible"
           transition={{ duration: 0.45, ease: "easeOut", delay: 0.14 }}
-          className="mx-auto mt-2.5 max-w-[620px] text-[14px] leading-relaxed text-neutral-500 dark:text-neutral-400"
+          className="mx-auto mt-2.5 max-w-[620px] text-[13px] sm:text-[14px] leading-relaxed text-neutral-500 dark:text-neutral-400"
         >
           A comprehensive overview of my educational background and professional certifications that showcase my commitment to continuous learning and expertise development.
         </motion.p>

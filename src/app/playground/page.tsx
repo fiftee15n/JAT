@@ -13,9 +13,9 @@ export default function PlaygroundPage() {
   const reduce = useReducedMotion() ?? false;
   return (
     <main className="flex flex-1 flex-col items-center bg-background text-foreground">
-      <div className="flex w-full max-w-[540px] flex-col items-start px-6 pt-16">
+      <div className="flex w-full max-w-[540px] flex-col items-start px-4 sm:px-6 pt-12 sm:pt-16">
         <motion.p
-          className="text-[24px] font-medium leading-none text-foreground"
+          className="text-[20px] sm:text-[24px] font-medium leading-none text-foreground"
           style={{ fontFamily: "var(--font-overused-grotesk)" }}
           initial={reduce ? false : { opacity: 0, y: 14, filter: "blur(6px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -37,7 +37,7 @@ export default function PlaygroundPage() {
       {/* bento grid — empty cards, dashed neutral border, filled later.
           Fits the site's standard 540px column: 2 columns stacking to 1 below
           sm, so the wide Figma layout composes within the container. */}
-      <div className="mt-10 w-full max-w-[540px] px-6 pb-24">
+      <div className="mt-8 sm:mt-10 w-full max-w-[540px] px-4 sm:px-6 pb-24">
         <div className="grid auto-rows-[132px] grid-cols-2 gap-3 sm:auto-rows-[247px] sm:grid-cols-[1fr_1fr]">
           {cards.map((c, i) => {
             const Span = c.span ?? "span 1";

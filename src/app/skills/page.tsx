@@ -18,13 +18,13 @@ export default function SkillsPage() {
   return (
     <main className="flex flex-1 flex-col items-center justify-start bg-background text-foreground">
       <motion.div
-        className="relative flex w-full flex-1 flex-col items-center justify-start px-6 pt-16"
+        className="relative flex w-full flex-1 flex-col items-center justify-start px-4 sm:px-6 pt-12 sm:pt-16"
         style={{ paddingBottom: pb }}
       >
         <div className="flex w-full max-w-[540px] flex-col gap-[25px]">
           {/* Heading — same hero greeting treatment as the work page */}
           <motion.p
-            className="text-[24px] font-medium leading-none text-foreground"
+            className="text-[20px] sm:text-[24px] font-medium leading-none text-foreground"
             style={{ fontFamily: "var(--font-overused-grotesk)" }}
             initial={reduce ? false : { opacity: 0, y: 14, filter: "blur(6px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
