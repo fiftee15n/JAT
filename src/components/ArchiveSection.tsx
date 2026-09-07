@@ -35,7 +35,7 @@ export function ArchiveSection() {
             target="_blank"
             rel="noopener noreferrer"
             onMouseEnter={() => setHovered(item.name)}
-            className={`group relative grid grid-cols-[55px_1fr] items-center border-b border-dashed py-[7px] pr-[10.5px] transition-colors duration-500 ${EASE} ${
+            className={`group relative grid grid-cols-[48px_1fr] items-start sm:items-baseline border-b border-dashed py-[9px] sm:py-[7px] pr-[10.5px] transition-colors duration-500 ${EASE} ${
               lineHidden ? "border-transparent" : "border-neutral-200 dark:border-neutral-800"
             }`}
           >
@@ -54,18 +54,20 @@ export function ArchiveSection() {
             <span className="pl-[10.5px] text-[13px] leading-[19.5px] text-neutral-500 dark:text-neutral-400">
               {item.year}
             </span>
-            <span className="flex min-w-0 items-center gap-[7px]">
-              <span className="shrink-0 text-[14px] font-medium leading-[19.5px] text-black dark:text-white">
-                {item.name}
+            <span className="flex min-w-0 items-baseline justify-between gap-[10px]">
+              <span className="flex min-w-0 flex-wrap items-baseline gap-x-[9px] gap-y-[2px]">
+                <span className="shrink-0 text-[14px] font-medium leading-[19.5px] text-black dark:text-white">
+                  {item.name}
+                </span>
+                {/* descriptions dim with age, per design; hover lifts them to full */}
+                <span
+                  className={`font-mono text-[13px] leading-[19.5px] text-neutral-500 opacity-(--row-o) transition-opacity duration-500 group-hover:opacity-100 dark:text-neutral-400 ${EASE}`}
+                  style={{ "--row-o": 1 - i * 0.1 } as CSSProperties}
+                >
+                  {item.description}
+                </span>
               </span>
-              {/* descriptions dim with age, per design; hover lifts them to full */}
-              <span
-                className={`truncate font-mono text-[13px] leading-[19.5px] text-neutral-500 opacity-(--row-o) transition-opacity duration-500 group-hover:opacity-100 dark:text-neutral-400 ${EASE}`}
-                style={{ "--row-o": 1 - i * 0.1 } as CSSProperties}
-              >
-                {item.description}
-              </span>
-              <span className={`ml-auto size-[12.25px] shrink-0 text-black opacity-50 transition-all duration-500 group-hover:translate-x-[1px] group-hover:-translate-y-[1px] group-hover:opacity-100 dark:text-white ${EASE}`}>
+              <span className={`ml-auto mt-1 size-[12.25px] shrink-0 text-black opacity-50 transition-all duration-500 group-hover:translate-x-[1px] group-hover:-translate-y-[1px] group-hover:opacity-100 dark:text-white ${EASE}`}>
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
