@@ -136,13 +136,13 @@ export const content = {
   ],
   archive: [
     {
-      year: "2024",
+      year: "2025",
       name: "Petsrology",
       description: "Pet care, adoption & management platform.",
       url: "https://github.com/fiftee15n/Petsrology_webapp",
     },
     {
-      year: "2024",
+      year: "2025",
       name: "Bazar-Saadai",
       description: "Online grocery & marketplace platform.",
       url: "https://github.com/fiftee15n/bazar_sadaai",
@@ -150,7 +150,7 @@ export const content = {
   ],
   funProjects: [
     {
-      year: "2025",
+      year: "2026",
       name: "Chithi",
       description: "Anonymous Bangla letter platform.",
       url: "https://chithi-likhun-seven.vercel.app/",
