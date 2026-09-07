@@ -138,13 +138,13 @@ export const content = {
     {
       year: "2024",
       name: "Petsrology",
-      description: "Pet care, adoption & management web application.",
+      description: "Pet care, adoption & management platform.",
       url: "https://github.com/fiftee15n/Petsrology_webapp",
     },
     {
       year: "2024",
       name: "Bazar-Saadai",
-      description: "Online grocery & marketplace e-commerce platform.",
+      description: "Online grocery & marketplace platform.",
       url: "https://github.com/fiftee15n/bazar_sadaai",
     },
   ],
