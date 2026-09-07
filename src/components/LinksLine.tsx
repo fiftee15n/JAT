@@ -54,10 +54,10 @@ export function LinksLine() {
   // pill row is its own source: CV + the four brand links. Kept separate from
   // content.socials (which now drives the footer icons = Claude & ChatGPT).
   const pills: { label: string; url: string }[] = [
-    { label: "Behance", url: "https://behance.net" },
-    { label: "Dribbble", url: "https://dribbble.com" },
-    { label: "Medium", url: "https://medium.com/@tamal" },
-    { label: "YouTube", url: "https://youtube.com/@tamal" },
+    // { label: "Behance", url: "https://behance.net" },
+    // { label: "Dribbble", url: "https://dribbble.com" },
+    // { label: "Medium", url: "https://medium.com/@tamal" },
+    // { label: "YouTube", url: "https://youtube.com/@tamal" },
   ];
   return (
     <section className="w-full">
