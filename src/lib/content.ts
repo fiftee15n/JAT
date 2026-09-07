@@ -34,7 +34,7 @@ export const content = {
       tags: ["React Native", "Expo", "TypeScript", "React", "Next.js", "TanStack Query", "Figma", "Google Play Store"],
     },
     {
-      company: "MediVisAI Lab",
+      company: "MedVisAI Research Center",
       icon: "code",
       url: "",
       logo: "/badges/medivisai.png",
@@ -47,7 +47,7 @@ export const content = {
       end: "Oct 2025",
       duration: "7 mos",
       highlights: [
-        "Conducted field research and biomedical data gathering for AI-driven medical imaging projects at MediVisAI Lab.",
+        "Conducted field research and biomedical data gathering for AI-driven medical imaging projects at MedVisAI Research Center.",
         "Collaborated on dataset preprocessing, Chest X-ray and CT scan annotation, and deep learning model validation for clinical diagnostic systems.",
         "Contributed to research methodologies and experimental analysis for AI conference publications.",
       ],
