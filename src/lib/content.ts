@@ -48,7 +48,7 @@ export const content = {
       duration: "7 mos",
       highlights: [
         "Conducted field research and biomedical data gathering for AI-driven medical imaging projects at MediVisAI Lab.",
-        "Collaborated on dataset preprocessing, MRI scan annotation, and deep learning model validation for clinical diagnostic systems.",
+        "Collaborated on dataset preprocessing, Chest X-ray and CT scan annotation, and deep learning model validation for clinical diagnostic systems.",
         "Contributed to research methodologies and experimental analysis for AI conference publications.",
       ],
       tags: ["Medical AI", "Computer Vision", "Deep Learning", "Data Annotation", "Biomedical Research", "TensorFlow"],
